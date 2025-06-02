@@ -206,6 +206,8 @@ function cleanCache()
     return array($kept, $removed);
 }
 
+$json['debug']  = $query;
+
 if (array_key_exists("cleancache", $query) && is_string($query['cleancache'])) {
     $result = cleanCache();
 
@@ -239,8 +241,8 @@ if (array_key_exists("cleancache", $query) && is_string($query['cleancache'])) {
 
     } else if (array_key_exists("id", $query) && array_key_exists("names", $query) && array_key_exists("textures", $query)) {
         $ride = $query["id"];
-        $names = $query["names"];
-        $encodedTextureDatas = $query["textures"];
+        $names = explode(',', $query["names"]);
+        $encodedTextureDatas =  explode(',',$query["textures"]);
 
 //    $resolver = pictureSettingsByName('fenghuang')['person_resolver'];
 //    $resolver(pictureSettingsByName('fenghuang'), $names, 0);
@@ -310,7 +312,7 @@ if (array_key_exists("cleancache", $query) && is_string($query['cleancache'])) {
                 }
 
                 // Render with blender
-                $command = "blender -b " . $sceneFile . " -o " . __DIR__ . "/render/" . $settings["file_name"] . "_# -a 0 2>&1; echo $?";
+                $command = "./Blender -b " . $sceneFile . " -o " . __DIR__ . "/render/" . $settings["file_name"] . "_# -a 0 2>&1; echo $?";
 //                print($command);
                 $result = shell_exec($command);
 //                print ($result);
